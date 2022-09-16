@@ -1,0 +1,186 @@
+{
+  "data": [
+    {
+      "x": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+      "y": [72, 45, 44, 40, 36, 35, 32, 28, 28, 27, 27, 26, 23, 22, 22, 21, 20, 19, 19, 18, 18, 17, 15, 14, 12, 11, 10, 10, 8],
+      "text": ["model: A<->E score: 72", "model: E<->A score: 45", "model: A+B<->E score: 44", "model: (b*E+c*E<->A)*(A*D+B*C<->E) score: 40", "model: A+B*C<->E score: 36", "model: (E<->A)*(A+B<->E) score: 35", "model: (b*E+c*E<->A)*(A*B+A*D<->E) score: 32", "model: A*c+A*D+B*C<->E score: 28", "model: A*c+B*C<->E score: 28", "model: (E<->A)*(A+C*D<->E) score: 27", "model: A*D+B*C<->E score: 27", "model: A*B+A*D+B*C<->E score: 26", "model: (c*E+D*E<->A)*(A<->E) score: 23", "model: (b*E+c*E<->A)*(A<->E) score: 22", "model: (E<->A)*(B<->E) score: 22", "model: A*B+B*C<->E score: 21", "model: (b*E+c*E<->A)*(A*c+A*D<->E) score: 20", "model: (E<->A)*(b*e+B*E<->C)*(A+C<->E) score: 19", "model: (E<->A)*(b*e+B*E<->C)*(A+D<->E) score: 19", "model: A*B+A*c+A*D<->E score: 18", "model: A*B+A*D<->E score: 18", "model: (b*E+D*E<->A)*(A<->E) score: 17", "model: A*B+A*c<->E score: 15", "model: A*c+A*D<->E score: 14", "model: (E<->A)*(B+C*D<->E) score: 12", "model: (E<->A)*(C*E+d*E<->B)*(B<->E) score: 11", "model: (b*e+B*E+D*E<->C)*(A+C<->E) score: 10", "model: (C*E+d*E<->B)*(A<->E) score: 10", "model: (E<->A)*(C*E+d*E<->B) score: 8"],
+      "type": "scatter",
+      "mode": "markers",
+      "marker": {
+        "autocolorscale": false,
+        "color": "rgba(0,0,0,1)",
+        "opacity": 1,
+        "size": 2.26771653543307,
+        "symbol": "circle",
+        "line": {
+          "width": 1.88976377952756,
+          "color": "rgba(0,0,0,1)"
+        }
+      },
+      "hoveron": "points",
+      "showlegend": false,
+      "xaxis": "x",
+      "yaxis": "y",
+      "hoverinfo": "text",
+      "frame": null
+    }
+  ],
+  "layout": {
+    "margin": {
+      "t": 29.4088866883057,
+      "r": 7.30593607305936,
+      "b": 130.200374059824,
+      "l": 37.2602739726027
+    },
+    "plot_bgcolor": "rgba(235,235,235,1)",
+    "paper_bgcolor": "rgba(255,255,255,1)",
+    "font": {
+      "color": "rgba(0,0,0,1)",
+      "family": "",
+      "size": 14.6118721461187
+    },
+    "xaxis": {
+      "domain": [0, 1],
+      "automargin": true,
+      "type": "linear",
+      "autorange": false,
+      "range": [0.4, 29.6],
+      "tickmode": "array",
+      "ticktext": ["A<->E", "E<->A", "A+B<->E", "(b*E+c*E<->A)*(A*D+B*C<->E)", "A+B*C<->E", "(E<->A)*(A+B<->E)", "(b*E+c*E<->A)*(A*B+A*D<->E)", "A*c+A*D+B*C<->E", "A*c+B*C<->E", "(E<->A)*(A+C*D<->E)", "A*D+B*C<->E", "A*B+A*D+B*C<->E", "(c*E+D*E<->A)*(A<->E)", "(b*E+c*E<->A)*(A<->E)", "(E<->A)*(B<->E)", "A*B+B*C<->E", "(b*E+c*E<->A)*(A*c+A*D<->E)", "(E<->A)*(b*e+B*E<->C)*(A+C<->E)", "(E<->A)*(b*e+B*E<->C)*(A+D<->E)", "A*B+A*c+A*D<->E", "A*B+A*D<->E", "(b*E+D*E<->A)*(A<->E)", "A*B+A*c<->E", "A*c+A*D<->E", "(E<->A)*(B+C*D<->E)", "(E<->A)*(C*E+d*E<->B)*(B<->E)", "(b*e+B*E+D*E<->C)*(A+C<->E)", "(C*E+d*E<->B)*(A<->E)", "(E<->A)*(C*E+d*E<->B)"],
+      "tickvals": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+      "categoryorder": "array",
+      "categoryarray": ["A<->E", "E<->A", "A+B<->E", "(b*E+c*E<->A)*(A*D+B*C<->E)", "A+B*C<->E", "(E<->A)*(A+B<->E)", "(b*E+c*E<->A)*(A*B+A*D<->E)", "A*c+A*D+B*C<->E", "A*c+B*C<->E", "(E<->A)*(A+C*D<->E)", "A*D+B*C<->E", "A*B+A*D+B*C<->E", "(c*E+D*E<->A)*(A<->E)", "(b*E+c*E<->A)*(A<->E)", "(E<->A)*(B<->E)", "A*B+B*C<->E", "(b*E+c*E<->A)*(A*c+A*D<->E)", "(E<->A)*(b*e+B*E<->C)*(A+C<->E)", "(E<->A)*(b*e+B*E<->C)*(A+D<->E)", "A*B+A*c+A*D<->E", "A*B+A*D<->E", "(b*E+D*E<->A)*(A<->E)", "A*B+A*c<->E", "A*c+A*D<->E", "(E<->A)*(B+C*D<->E)", "(E<->A)*(C*E+d*E<->B)*(B<->E)", "(b*e+B*E+D*E<->C)*(A+C<->E)", "(C*E+d*E<->B)*(A<->E)", "(E<->A)*(C*E+d*E<->B)"],
+      "nticks": null,
+      "ticks": "outside",
+      "tickcolor": "rgba(51,51,51,1)",
+      "ticklen": 3.65296803652968,
+      "tickwidth": 0.66417600664176,
+      "showticklabels": true,
+      "tickfont": {
+        "color": "rgba(77,77,77,1)",
+        "family": "",
+        "size": 6.6417600664176
+      },
+      "tickangle": -52,
+      "showline": false,
+      "linecolor": null,
+      "linewidth": 0,
+      "showgrid": true,
+      "gridcolor": "rgba(255,255,255,1)",
+      "gridwidth": 0.66417600664176,
+      "zeroline": false,
+      "anchor": "y",
+      "title": {
+        "text": "model",
+        "font": {
+          "color": "rgba(0,0,0,1)",
+          "family": "",
+          "size": 14.6118721461187
+        }
+      },
+      "hoverformat": ".2f"
+    },
+    "yaxis": {
+      "domain": [0, 1],
+      "automargin": true,
+      "type": "linear",
+      "autorange": false,
+      "range": [4.8, 75.2],
+      "tickmode": "array",
+      "ticktext": ["20", "40", "60"],
+      "tickvals": [20, 40, 60],
+      "categoryorder": "array",
+      "categoryarray": ["20", "40", "60"],
+      "nticks": null,
+      "ticks": "outside",
+      "tickcolor": "rgba(51,51,51,1)",
+      "ticklen": 3.65296803652968,
+      "tickwidth": 0.66417600664176,
+      "showticklabels": true,
+      "tickfont": {
+        "color": "rgba(77,77,77,1)",
+        "family": "",
+        "size": 11.689497716895
+      },
+      "tickangle": -0,
+      "showline": false,
+      "linecolor": null,
+      "linewidth": 0,
+      "showgrid": true,
+      "gridcolor": "rgba(255,255,255,1)",
+      "gridwidth": 0.66417600664176,
+      "zeroline": false,
+      "anchor": "x",
+      "title": {
+        "text": "score",
+        "font": {
+          "color": "rgba(0,0,0,1)",
+          "family": "",
+          "size": 14.6118721461187
+        }
+      },
+      "hoverformat": ".2f"
+    },
+    "shapes": [
+      {
+        "type": "rect",
+        "fillcolor": null,
+        "line": {
+          "color": null,
+          "width": 0,
+          "linetype": []
+        },
+        "yref": "paper",
+        "xref": "paper",
+        "x0": 0,
+        "x1": 1,
+        "y0": 0,
+        "y1": 1
+      }
+    ],
+    "showlegend": false,
+    "legend": {
+      "bgcolor": "rgba(255,255,255,1)",
+      "bordercolor": "transparent",
+      "borderwidth": 1.88976377952756,
+      "font": {
+        "color": "rgba(0,0,0,1)",
+        "family": "",
+        "size": 11.689497716895
+      }
+    },
+    "hovermode": "closest",
+    "barmode": "relative"
+  },
+  "config": {
+    "doubleClick": "reset",
+    "modeBarButtonsToAdd": ["hoverclosest", "hovercompare"],
+    "showSendToCloud": false
+  },
+  "source": "A",
+  "attrs": {
+    "7c5636c71943": {
+      "x": {},
+      "y": {},
+      "text": {},
+      "type": "scatter"
+    }
+  },
+  "cur_data": "7c5636c71943",
+  "visdat": {
+    "7c5636c71943": ["function (y) ", "x"]
+  },
+  "highlight": {
+    "on": "plotly_click",
+    "persistent": false,
+    "dynamic": false,
+    "selectize": false,
+    "opacityDim": 0.2,
+    "selected": {
+      "opacity": 1
+    },
+    "debounce": 0
+  },
+  "shinyEvents": ["plotly_hover", "plotly_click", "plotly_selected", "plotly_relayout", "plotly_brushed", "plotly_brushing", "plotly_clickannotation", "plotly_doubleclick", "plotly_deselect", "plotly_afterplot", "plotly_sunburstclick"],
+  "base_url": "https://plot.ly"
+}
