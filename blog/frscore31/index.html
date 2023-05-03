@@ -1,0 +1,205 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.101.0"><title>frscore 0.3.1 | V-P Parkkinen</title><meta name=description content><meta property="og:site_name" content="V-P Parkkinen"><meta property="og:title" content="frscore 0.3.1 | V-P Parkkinen"><meta property="og:description" content><meta property="og:type" content="page"><meta property="og:url" content="/blog/frscore31/"><meta property="og:locale" content="en"><meta property="og:image" content="%!s()"><meta property="twitter:card" content="summary_large_image"><meta name=twitter:image content="%!s()"><meta itemprop=name content="frscore 0.3.1"><meta itemprop=description content="A new version of frscore is now on CRAN. Alas, this version does not deliver the features I promised in an earlier post. Other issues were simply deemed more urgent at this time. The NEWS file gives a bullet-point summary of changes. This post is an attempt to give an overview of a conceptual issue that necessitated the biggest change in the package. Due to this change, some old results generated with frscored_cna() and frscore() may not be reproducible with the new default behaviors, hence this post."><meta itemprop=datePublished content="2023-03-05T00:00:00+00:00"><meta itemprop=dateModified content="2023-03-05T00:00:00+00:00"><meta itemprop=wordCount content="1822"><meta itemprop=keywords content="frscore,"><!--[if IE]><script src=//html5shiv.googlecode.com/svn/trunk/html5.js></script><![endif]--><link rel="shortcut icon" href type=image/x-icon><link rel=icon href type=image/x-icon><link rel=stylesheet href=/style.main.min.fcee94b15e4bc095399cf72a18633676d2a9213fd9acee562146c669afe90005.css integrity="sha256-/O6UsV5LwJU5nPcqGGM2dtKpIT/ZrO5WIUbGaa/pAAU=" media=screen><script src=/panelset.min.dca42702d7daf6fd31dc352efd2bcf0e4ac8c05ccaa58d9293f6177462de5d5f.js type=text/javascript></script>
+<script src=/main.min.2b065c027e8468f7d7f985cce5b7b1768d82dc0130f5e2c6da80dea245d4e061.js type=text/javascript></script></head><body><div class=grid-container><header class="site-header pt4 pb2 mb4 bb b--transparent ph5 headroom z-max" role=banner><nav class="site-nav db dt-l w-100" role=navigation><a class="site-brand db dtc-l v-mid link no-underline w-100 w-33-l tc tl-l" href=/ title=Home><span class="f4 fw7">V-P Parkkinen</span></a><div class="site-links db dtc-l v-mid w-100 w-47-l tc tr-l mt3 mt0-l ttu tracked"><a class="link f6 f5-l dib pv1 ph2" href=/about/ title="About me">About</a>
+<a class="link f6 f5-l dib pv1 ph2" href=/publications/ title=Publications>publications</a>
+<a class="link f6 f5-l dib pv1 ph2" href=/cv.pdf title=CV>CV</a>
+<a class="link f6 f5-l dib pv1 ph2 active" href=/blog/ title=Blog>Blog</a></div></nav></header><main class="page-main pa4" role=main><section class="page-content mw7 center"><article class="post-content pa0 ph4-l"><header class=post-header><h1 class="f1 lh-solid measure-narrow mb3 fw4">frscore 0.3.1</h1></header><section class="post-body pt5 pb4"><p>A new version of <code>frscore</code> is now on
+<a href=https://cran.r-project.org/web/packages/frscore/index.html target=_blank rel=noopener>CRAN</a>.
+Alas, this version does not deliver the features I promised in an
+<a href=/blog/frscore_viz1/>earlier post</a>. Other issues were simply
+deemed more urgent at this time. The
+<a href=https://github.com/vpparkkinen/frscore/blob/main/NEWS.md target=_blank rel=noopener>NEWS</a> file
+gives a bullet-point summary of changes. This post is an attempt to give
+an overview of a conceptual issue that necessitated the
+biggest change in the package. Due to this change, some <strong>old results generated with</strong> <code>frscored_cna()</code> <strong>and</strong> <code>frscore()</code> <strong>may not be reproducible with the new default behaviors</strong>, hence this post. Other developments are
+explained at the end of the post.</p><h2 id=measuring-agreement-in-causal-relevance-ascriptions>Measuring agreement in causal relevance ascriptions
+<a href=#measuring-agreement-in-causal-relevance-ascriptions><svg class="anchor-symbol" aria-hidden="true" height="26" width="26" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="currentcolor"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76.0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71.0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71.0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76.0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></h2><p>In
+<a href=https://doi.org/10.1177/0049124120986200 target=_blank rel=noopener>Parkkinen & Baumgartner
+(2021)</a> we describe the
+conceptual background of the procedure implemented in the <code>frscore</code>
+functions. The idea is that for a <code>cna</code> or other CCM model, robustness
+against changes in consistency and coverage settings need not mean that
+the very same model is inferred at many different settings. Rather, what
+matters is whether or not the causal ascriptions made by a model are in
+agreement with (many) other models inferred at different settings. In
+practice, the <code>frscore</code> functions implement this so that models inferred
+at different con/cov settings are checked against each other with
+<code>cna::is.submodel()</code>, counting the number of sub- and supermodels each
+model has in the whole lot. This number is each model’s unadjusted
+fit-robustness score.</p><p>The aforementioned paper and the manual page for <code>cna::is.submodel()</code>
+both give wordy definitions of the submodel relation, but in short, each
+atomic component model (“asf”) of a submodel must have a counterpart asf
+in the supermodel such that the former could be generated by eliminating
+symbols from the latter. E.g. the single-asf model <code>A+B&lt;->C</code> is a
+submodel of <code>A*Y+B&lt;->C</code>, as we can get to the former by removing <code>*Y</code>
+from the latter. To be specific, we might call this relation a
+<em>syntactic</em> submodel relation, as it involves no interpretation, causal
+or otherwise, of the meaning of the symbols that appear in the models.
+When we interpret the models causally, a syntactic submodel relation
+means that all claims about <em>direct</em> causal relevance made by the
+submodel are contained in the supermodel. This is because claims of
+direct causation are explicitly represented by the asf syntax: anything
+on the left hand side of the equivalence sign <code>"&lt;->"</code> is a direct cause of the outcome on the
+right hand side.</p><p>In the context of <code>frscore</code>, the problem with this is twofold. First,
+complex models comprising more than one asf can make <em>indirect</em> causal
+relevance ascriptions that cannot be read off the overt syntax of the
+model. Second, the concept of direct causation is relative to (the set
+of factors included in) a model. For example, <code>(A+B&lt;->C)*(C+D&lt;->E)</code>
+claims that <code>A</code> and <code>B</code> are indirectly causally relevant for <code>E</code> in
+virtue of causing <code>C</code>. Since every causal relevance claim corresponds to
+a claim about difference-making, this means that the model claims that
+there are circumstances in which wiggling <code>A</code> while suppressing <code>B</code>, or
+the other way around, makes a difference to <code>E</code> (via making a difference
+to <code>C</code>). Now think of <code>A+B&lt;->E</code>. <code>A+B&lt;->E</code> describes those same causal
+relations between <code>{A,B,E}</code>, entailing the exact same difference-making
+relations between <em>those three</em> factors, but does so at a coarser
+granularity, omitting the mediating factor <code>C</code>. While
+<code>(A+B&lt;->C)*(C+D&lt;->E)</code> gives a more detailed description of the causal
+process than <code>A+B&lt;->E</code>, the latter is clearly not making claims about
+causal relevance that conflict the more detailed model. Hence, if these
+were models inferred from the same data set, the <code>frscore</code> functions
+should recognize that they agree in their causal relevance ascriptions.
+But when models are compared using <code>cna::is.submodel()</code>, this is not
+recognized: <code>A+B&lt;->E</code> is not a syntactic submodel of
+<code>(A+B&lt;->C)*(C+D&lt;->E)</code>, because there is no suitable counterpart asf in
+the latter for <code>A+B&lt;->E</code>.</p><p>Consider another pair of models: <code>(A+B*D&lt;->C)*(C&lt;->G)</code> and
+<code>(A+B*D&lt;->C)*(C+D&lt;->G)</code>. Here, the former model <em>is</em> a syntactic
+submodel of the latter. Yet, the former makes a causal relevance claim
+that disagrees with the latter. <code>(A+B*D&lt;->C)*(C&lt;->G)</code> claims that <code>A</code>,
+<code>B</code> and <code>D</code> are indirectly relevant for <code>G</code> in virtue of causing <code>C</code>.
+The latter model claims that <code>A</code> is indirectly relevant for <code>G</code>, <code>D</code>
+directly so, and <code>B</code> not causally relevant for <code>G</code> at all. It may be
+easier to make this conflict obvious by considering the associated
+difference-making claims. <code>(A+B*D&lt;->C)*(C&lt;->G)</code> claims that
+wiggling <code>B</code> makes a difference to <code>G</code> when <code>D</code> is present and <code>A</code> is
+absent. By contrast, <code>(A+B*D&lt;->C)*(C+D&lt;->G)</code> claims that this is
+impossible: According to <code>(A+B*D&lt;->C)*(C+D&lt;->G)</code>, <code>G</code> is always present
+whenever <code>D</code> is. Yet, the old <code>frscore</code> functions that relied on
+<code>cna::is.submodel()</code> would judge this pair of models to be free of
+conflicting causal relevance ascriptions.</p><h2 id=causal-submodels>Causal submodels
+<a href=#causal-submodels><svg class="anchor-symbol" aria-hidden="true" height="26" width="26" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="currentcolor"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76.0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71.0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71.0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76.0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></h2><p>To fix this problem, <code>frscore 0.3.1</code> introduces a new function
+<code>causal_submodel()</code> that is like <code>cna::is.submodel()</code>, except that it
+checks whether all causal relevance ascriptions, direct or indirect, of
+one model have a suitable[1] counterpart in another model. If yes, one
+is a <em>causal</em> submodel of the other. The syntax of <code>causal_submodel()</code>
+resembles <code>cna::is.submodel()</code>: the candidate submodel to be tested is
+given as the first argument, and the target supermodel as the second. A
+notable difference is that unlike <code>cna::is.submodel()</code>, you cannot (for
+now) give <code>causal_submodel()</code> a vector of more than one candidate
+model<em>s</em> at a time. For processing multi-valued models,
+<code>causal_submodel()</code> will also need to know the range of admissible
+factor values. This is provided via the argument <code>dat</code>, and would
+typically be the data set from which the models were inferred.</p><p>By default, <code>frscored_cna()</code> and <code>frscore()</code> will now use
+<code>causal_submodel()</code> to compare models when calculating fr-scores. This
+induces a slight performance penalty compared to the older versions of
+these functions. In case performance is crucial, or one wishes to
+replicate old results, <code>frscored_cna()</code> and <code>frscore()</code> functions have a
+new argument <code>comp.method</code> that allows the user to switch to the old
+behavior. <code>comp.method</code> takes values <code>"causal_submodel"</code> (default) or
+<code>"is.submodel"</code>. With the default value, fr-scores are counted using
+<code>causal_submodel()</code>, and with <code>comp.method = "is.submodel"</code>,
+<code>cna::is.submodel()</code>[2] is used instead. According to our tests, the
+differences in the results are small between these two options, so using
+<code>comp.method = "is.submodel"</code> might still be reasonable for some users.
+We nonetheless recommend using the default value when possible, as this
+more closely tracks the kind of robustness we intended.</p><p>When processing multi-valued models with <code>frscore()</code> using
+<code>comp.method = "causal_submodel"</code>, the admissible factor value range
+must be provided as the (new) argument <code>dat</code>, similarly to
+<code>causal_submodel()</code>. In <code>frscored_cna()</code>, the user-supplied data set is
+automatically used for this purpose.</p><p>Below are some examples of <code>causal_submodel()</code> output compared to
+<code>cna::is.submodel()</code>.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-r data-lang=r><span style=display:flex><span><span style=color:#900;font-weight:700>if</span>(<span style=color:#900;font-weight:700>compareVersion</span>(<span style=color:#900;font-weight:700>as.character</span>(<span style=color:#900;font-weight:700>packageVersion</span>(<span style=color:#d14>&#34;frscore&#34;</span>)), <span style=color:#d14>&#34;0.3.1&#34;</span>) <span style=color:#000;font-weight:700>&gt;</span> <span style=color:#099>0</span>){
+</span></span><span style=display:flex><span>  <span style=color:#900;font-weight:700>install.packages</span>(<span style=color:#d14>&#34;frscore&#34;</span>) <span style=color:#998;font-style:italic># update package if needed</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#900;font-weight:700>library</span>(frscore)
+</span></span></code></pre></div><pre><code>## Loading required package: cna
+
+## Registered S3 method overwritten by 'cna':
+##   method          from
+##   some.data.frame car
+
+## Loading required package: lifecycle
+</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-r data-lang=r><span style=display:flex><span>target <span style=color:#000;font-weight:700>&lt;-</span> <span style=color:#d14>&#34;(A+B&lt;-&gt;C)*(C+D&lt;-&gt;E)&#34;</span>
+</span></span><span style=display:flex><span>candidate <span style=color:#000;font-weight:700>&lt;-</span> <span style=color:#d14>&#34;A+B&lt;-&gt;E&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#900;font-weight:700>is.submodel</span>(x <span style=color:#000;font-weight:700>=</span> candidate, y <span style=color:#000;font-weight:700>=</span> target)
+</span></span></code></pre></div><pre><code>## A+B&lt;-&gt;E
+##   FALSE
+## attr(,&quot;target&quot;)
+## [1] &quot;(A+B&lt;-&gt;C)*(C+D&lt;-&gt;E)&quot;
+</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-r data-lang=r><span style=display:flex><span><span style=color:#900;font-weight:700>causal_submodel</span>(x <span style=color:#000;font-weight:700>=</span> candidate, y <span style=color:#000;font-weight:700>=</span> target)
+</span></span></code></pre></div><pre><code>## A+B&lt;-&gt;E
+##    TRUE
+## attr(,&quot;target&quot;)
+## [1] &quot;(A+B&lt;-&gt;C)*(C+D&lt;-&gt;E)&quot;
+</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-r data-lang=r><span style=display:flex><span>target2 <span style=color:#000;font-weight:700>&lt;-</span> <span style=color:#d14>&#34;(A+B*D&lt;-&gt;C)*(C+D&lt;-&gt;G)&#34;</span>
+</span></span><span style=display:flex><span>candidate2 <span style=color:#000;font-weight:700>&lt;-</span> <span style=color:#d14>&#34;(A+B*D&lt;-&gt;C)*(C&lt;-&gt;G)&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#900;font-weight:700>is.submodel</span>(candidate2, target2)
+</span></span></code></pre></div><pre><code>## (A+B*D&lt;-&gt;C)*(C&lt;-&gt;G)
+##                TRUE
+## attr(,&quot;target&quot;)
+## [1] &quot;(A+B*D&lt;-&gt;C)*(C+D&lt;-&gt;G)&quot;
+</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-r data-lang=r><span style=display:flex><span><span style=color:#900;font-weight:700>causal_submodel</span>(candidate2, target2)
+</span></span></code></pre></div><pre><code>## (A+B*D&lt;-&gt;C)*(C&lt;-&gt;G)
+##               FALSE
+## attr(,&quot;target&quot;)
+## [1] &quot;(A+B*D&lt;-&gt;C)*(C+D&lt;-&gt;G)&quot;
+</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-r data-lang=r><span style=display:flex><span><span style=color:#998;font-style:italic># two models inferred from the `d.pban` example data set</span>
+</span></span><span style=display:flex><span>mv_target <span style=color:#000;font-weight:700>&lt;-</span> <span style=color:#d14>&#34;(C=1 + C=2 + F=2 &lt;-&gt; PB=1)*(F=1 + F=2 &lt;-&gt; T=2)&#34;</span>
+</span></span><span style=display:flex><span>mv_candidate <span style=color:#000;font-weight:700>&lt;-</span> <span style=color:#d14>&#34;(T=1 + V=0 &lt;-&gt; PB=1)*(F=1 + F=2 &lt;-&gt; T=2)&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic># causal_submodel() needs the data to process mv models</span>
+</span></span><span style=display:flex><span><span style=color:#900;font-weight:700>causal_submodel</span>(x <span style=color:#000;font-weight:700>=</span> mv_candidate, y <span style=color:#000;font-weight:700>=</span> mv_target, dat <span style=color:#000;font-weight:700>=</span> d.pban)
+</span></span></code></pre></div><pre><code>## (T=1+V=0&lt;-&gt;PB=1)*(F=1+F=2&lt;-&gt;T=2)
+##                            FALSE
+## attr(,&quot;target&quot;)
+## [1] &quot;(C=1+C=2+F=2&lt;-&gt;PB=1)*(F=1+F=2&lt;-&gt;T=2)&quot;
+</code></pre><p><code>causal_submodel()</code> is an approximation of a strictly speaking valid test
+for containment of causal relevance claims between models, even though a
+closer approximation than <code>cna::is.submodel()</code>. Internally, the inputted
+models need to be manipulated in various ways to explicate all indirect
+causal ascriptions, which involves minimizing the manipulated models to
+remove redundancies. To speed things up, the minimization relies on
+<code>cna::rreduce()</code>, which randomly chooses a single minimization path
+whenever faced with ambiguous models. In practice, this may result in
+the output of <code>causal_submodel()</code> changing between subsequent calls on
+the same pair of models, if those models happen to be ambiguous. This
+however happens rarely enought to not affect the <code>frscore</code> functions in
+a meaningful way. Models that describe causal feedback cycles present
+another unique problem. Such models claim that some factors are causally
+relevant for themselves, as in <code>(A+B&lt;->C)*(C+D&lt;->A)</code>. Should <code>A&lt;->A</code>
+count as a causal submodel of <code>(A+B&lt;->C)*(C+D&lt;->A)</code>, or not? Either
+conclusion could plausibly be argued for. Here <code>causal_submodel()</code> takes
+the least costly option and simply checks whether a syntactic submodel
+relation is present, and returns the result.</p><h2 id=other-changes>Other changes
+<a href=#other-changes><svg class="anchor-symbol" aria-hidden="true" height="26" width="26" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="currentcolor"/><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76.0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71.0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71.0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76.0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a></h2><p>The <code>scoretype</code> argument of <code>frscore()</code> and <code>frscored_cna()</code> is now
+deprecated, and will be removed in the next version of the package. The
+reason for this is simple: If you changed the <code>scoretype</code> value from its
+default, thereby forcing the scores to be counted based on either sub-
+or supermodel relations only, then the scores would not reflect the
+robustness of the models as we defined it in
+<a href=https://doi.org/10.1177/0049124120986200 target=_blank rel=noopener>Parkkinen & Baumgartner
+(2021)</a>. We can offer no
+guidance as to how such results should be interpreted, so having the
+option to change how the scores are calculated can only lead to
+confusion. If one is mostly interested in complex (resp. simple) models,
+one should explicitly argue for one’s choice of focus, rather than
+changing the fr-scoring routine to arbitrarily favor one’s favorite
+model(s). After running the whole fr-scoring routine with
+<code>frscored_cna()</code>, one can always view all the models returned in a
+reanalysis series, and the score composition for every model type, by
+inspecting the respective elements in the return object. From there, one
+can calculate any other statistics about the returned models one wishes.</p><p>The <code>ncsf</code> argument in <code>rean_cna()</code> is deprecated in favor of <code>n.init</code>,
+which does exactly the same thing: its value determines the maximum
+number of complex models (“csf”s) computed. Note that this only applies
+when <code>output = "csf"</code> (the default). In practice, <code>rean_cna()</code> is primarily a helper function called by <code>frscored_cna()</code> for performing a reanalysis series; I&rsquo;d imagine it to be very rare for a regular user to need it directly. Hence, <code>n.init</code> is also added as a new
+explicit argument to <code>frscored_cna()</code>, to make it obvious to the user that one <em>can</em> control the maximum number of csfs if needed, and to make eventual warnings about <code>n.init</code> value that actually arise from <code>cna::csf()</code> less confusing. This
+change brings the syntax of both of these functions in line with the <code>cna</code>
+functions that they rely on anyway. The default value of <code>n.init</code> is
+also the same as in the relevant <code>cna</code> functions. As the <code>cna</code>
+functions have become more efficient, imposing a lower limit is usually
+no longer needed.</p><p><code>frscore()</code> gains an argument <code>dat</code>, which was covered above.</p><p>[1] See the manual page for <code>causal_submodel()</code> for an explanation of
+what counts as a “suitable” counterpart.</p><p>[2] To be precise, the package now uses a faster, internal
+implementation of <code>cna::is.submodel</code>, thanks to generous help of <code>cna</code>
+maintainer Mathias Ambühl.</p><details closed class="f6 fw7 input-reset"><dl class="f6 lh-copy"><dt class=fw7>Posted on:</dt><dd class="fw5 ml0">March 5, 2023</dd></dl><dl class="f6 lh-copy"><dt class=fw7>Length:</dt><dd class="fw5 ml0">9 minute read, 1822 words</dd></dl><dl class="f6 lh-copy"><dt class=fw7>Categories:</dt><dd class="fw5 ml0"><a href=/categories/frscore>frscore</a></dd></dl><dl class="f6 lh-copy"><dt class=fw7>Tags:</dt><dd class="fw5 ml0"><a href=/tags/frscore>frscore</a></dd></dl><dl class="f6 lh-copy"><dt class=fw7>See Also:</dt><dd class="fw5 ml0"><a href=/blog/frscore_viz1/>Visualizing frscore results, part 1</a></dd></dl></details></section><footer class=post-footer><div class="post-pagination dt w-100 mt4 mb2"><a class="next dtc pl2 tr v-top fw6" href=/blog/frscore_viz1/>Visualizing frscore results, part 1 &rarr;</a></div></footer></article></section></main><footer class="site-footer pv4 bt b--transparent ph5" role=contentinfo><nav class="db dt-l w-100"><p class="site-copyright f7 db dtc-l v-mid w-100 w-33-l tc tl-l pv2 pv0-l mv0 lh-copy">&copy; 2023 Veli-Pekka Parkkinen
+<span class=middot-divider></span>
+Made using simplified <span xmlns:dct=http://purl.org/dc/terms/ property="dct:title"><a xmlns:dct=http://purl.org/dc/terms/ href=https://github.com/hugo-apero/ rel=dct:source>Hugo Apéro</a></span> theme.<br></p><div class="site-social-links db dtc-l v-mid w-100 w-33-l tc pv2 pv0-l mv0"><div class=social-icon-links aria-hidden=true><a class="link dib h1 w1 ml0 mr2 f6 o-90 glow" href=https://github.com/vpparkkinen title=github target=_blank rel=noopener><i class="fab fa-github fa-lg fa-fw"></i></a>
+<a class="link dib h1 w1 ml0 mr2 f6 o-90 glow" href=mailto:veli-pekka.parkkinen@uib.no title=envelope><i class="fa fa-envelope fa-lg fa-fw"></i></a></div></div><div class="site-links f6 db dtc-l v-mid w-100 w-67-l tc tr-l pv2 pv0-l mv0"></div></nav><script>var i,text,code,codes=document.getElementsByTagName("code");for(let e=0;e<codes.length;){if(code=codes[e],code.parentNode.tagName!=="PRE"&&code.childElementCount===0&&(text=code.textContent,/^\$[^$]/.test(text)&&/[^$]\$$/.test(text)&&(text=text.replace(/^\$/,"\\(").replace(/\$$/,"\\)"),code.textContent=text),/^\\\((.|\s)+\\\)$/.test(text)||/^\\\[(.|\s)+\\\]$/.test(text)||/^\$(.|\s)+\$$/.test(text)||/^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text))){code.outerHTML=code.innerHTML;continue}e++}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css integrity=sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js integrity=sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8 crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js integrity=sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl crossorigin=anonymous onload=renderMathInElement(document.body)></script></footer></div></body></html>
